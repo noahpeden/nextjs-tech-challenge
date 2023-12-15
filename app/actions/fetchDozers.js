@@ -8,5 +8,6 @@ export default async function fetchDozers() {
     return jsonData;
   } catch (error) {
     console.error('Error fetching data:', error);
+    return { error };
   }
 }
