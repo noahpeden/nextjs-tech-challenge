@@ -9,15 +9,42 @@ export const DozersProvider = ({ children }) => {
   const [dozers, setDozers] = useState([]);
   const [filters, setFilters] = useState({
     categories: [],
-    engineHP: 50,
-    operatingWeight: 50,
+    engineHP: [0, 100],
+    operatingWeight: [0, 100],
   });
 
   useEffect(() => {
     async function fetchData() {
       const response = await fetchDozers();
       setOriginalDozers(response.models);
-      setDozers(response.models); // Initially set all dozers
+      setDozers(response.models);
+
+      let minHP = Number.MAX_VALUE,
+        maxHP = 0,
+        minWeight = Number.MAX_VALUE,
+        maxWeight = 0;
+      response.models.forEach((dozer) => {
+        const enginePower = parseInt(
+          dozer.specs
+            .find((spec) => spec.spec_name === 'Power - Net')
+            ?.spec_value?.[1]?.split(' ')[0] || '0'
+        );
+        const operatingWeight = parseInt(
+          dozer.specs
+            .find((spec) => spec.spec_name === 'Operating Weight')
+            ?.spec_value?.[1]?.split(' ')[0] || '0'
+        );
+        minHP = Math.min(minHP, enginePower);
+        maxHP = Math.max(maxHP, enginePower);
+        minWeight = Math.min(minWeight, operatingWeight);
+        maxWeight = Math.max(maxWeight, operatingWeight);
+      });
+
+      setFilters((filters) => ({
+        ...filters,
+        engineHP: [minHP, maxHP],
+        operatingWeight: [minWeight, maxWeight],
+      }));
     }
     fetchData();
   }, []);
@@ -29,23 +56,28 @@ export const DozersProvider = ({ children }) => {
       const matchesCategory =
         newFilters.categories.length === 0 ||
         newFilters.categories.includes(dozer.family);
-      console.log(dozer.family, matchesCategory);
-      const enginePower =
-        dozer.specs.find((spec) => spec.spec_name === 'Power - Net')
-          ?.spec_value?.[1] || '0 kW';
-      const operatingWeight =
-        dozer.specs.find((spec) => spec.spec_name === 'Operating Weight')
-          ?.spec_value?.[1] || '0 kg';
 
-      const powerInKw = parseInt(enginePower.split(' ')[0]);
-      const weightInKg = parseInt(operatingWeight.split(' ')[0]);
+      const enginePower = parseInt(
+        dozer.specs
+          .find((spec) => spec.spec_name === 'Power - Net')
+          ?.spec_value?.[1]?.split(' ')[0] || '0'
+      );
 
-      const matchesPower = powerInKw <= newFilters.engineHP;
-      const matchesWeight = weightInKg <= newFilters.operatingWeight;
+      const operatingWeight = parseInt(
+        dozer.specs
+          .find((spec) => spec.spec_name === 'Operating Weight')
+          ?.spec_value?.[1]?.split(' ')[0] || '0'
+      );
 
-      return matchesCategory;
+      const matchesPower =
+        enginePower >= newFilters.engineHP[0] &&
+        enginePower <= newFilters.engineHP[1];
+      const matchesWeight =
+        operatingWeight >= newFilters.operatingWeight[0] &&
+        operatingWeight <= newFilters.operatingWeight[1];
+
+      return matchesCategory && matchesPower && matchesWeight;
     });
-    console.log({ filteredDozers });
 
     setDozers(filteredDozers);
   };

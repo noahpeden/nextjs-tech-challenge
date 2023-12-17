@@ -6,12 +6,13 @@ import { DozersContext } from '../contexts/DozersContext';
 
 const Home = () => {
   const { dozers = [] } = useContext(DozersContext);
+  console.log(dozers);
   if (dozers?.length === 0) return <Loading />;
   if (dozers?.error) return <div>There was an error fetching dozers</div>;
-
+  console.log(dozers);
   return (
     <div className='container flex'>
-      <div className='mr-8 mt-12'>
+      <div className='mr-4 mt-12 w-[350px]'>
         <Filters />
       </div>
       <div className='container mx-auto '>
@@ -24,13 +25,18 @@ const Home = () => {
                 {product.brand} - {product.model_name}
               </h2>
               <p>{product.family}</p>
-              <p>{product.longDesc}</p>
+              {/* <p>{product.longDesc}</p> */}
 
-              {product?.specs?.map((spec) => (
-                <p key={spec.spec_name}>
-                  {spec.spec_name} - {spec.spec_value}
-                </p>
-              ))}
+              {product?.specs?.map((spec) => {
+                return (
+                  <div
+                    className='flex flex-col text-sm'
+                    key={`${product.id}-${spec.spec_name}`}
+                  >
+                    {spec.spec_name} - {spec.spec_value[0]}
+                  </div>
+                );
+              })}
             </li>
           ))}
         </ul>

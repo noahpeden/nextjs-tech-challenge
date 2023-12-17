@@ -1,6 +1,8 @@
 'use client';
 import React, { useContext } from 'react';
 import { DozersContext } from '../contexts/DozersContext';
+import RangeSlider from 'react-range-slider-input';
+import 'react-range-slider-input/dist/style.css';
 
 export default function Filters() {
   const { filters, updateFilters } = useContext(DozersContext);
@@ -12,16 +14,10 @@ export default function Filters() {
       : [...filters.categories, category];
     updateFilters({ ...filters, categories: newCategories });
   };
-
-  const handleSliderChange = (event) => {
-    updateFilters({
-      ...filters,
-      [event.target.name]: Number(event.target.value),
-    });
-  };
+  console.log(filters.operatingWeight[0]);
   return (
-    <div>
-      <h1>Filters</h1>
+    <div className='mr-10'>
+      <h1 className='text-lg'>Filters</h1>
       <div>
         <h2>Category</h2>
         <ul>
@@ -67,31 +63,30 @@ export default function Filters() {
           </li>
         </ul>
       </div>
-      {/* @TODO this is up next */}
-      {/* <div>
+
+      <div>
         <h2>Engine HP</h2>
-        <input
-          onChange={handleSliderChange}
-          role='slider'
-          name='Engine HP'
-          type='range'
-          min='0'
-          max='100'
+        <span>{filters.engineHP[0] - filters.engineHP[1]}</span>
+        <RangeSlider
+          min={0}
+          max={500}
           value={filters.engineHP}
+          onInput={(value) => updateFilters({ ...filters, engineHP: value })}
         />
       </div>
+
       <div>
         <h2>Operating Weight</h2>
-        <input
-          onChange={handleSliderChange}
-          role='slider'
-          name='Operating Weight'
-          type='range'
-          min='0'
-          max='100'
+        <span>{filters.operatingWeight[0] - filters.operatingWeight[1]}</span>
+        <RangeSlider
+          min={0}
+          max={105000}
           value={filters.operatingWeight}
+          onInput={(value) =>
+            updateFilters({ ...filters, operatingWeight: value })
+          }
         />
-      </div> */}
+      </div>
     </div>
   );
 }
