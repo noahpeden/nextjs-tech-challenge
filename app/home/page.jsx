@@ -5,11 +5,11 @@ import Filters from '../components/Filters';
 import { DozersContext } from '../contexts/DozersContext';
 
 const Home = () => {
-  const { dozers = [] } = useContext(DozersContext);
-  console.log(dozers);
-  if (dozers?.length === 0) return <Loading />;
+  const { dozers = [], loading } = useContext(DozersContext);
+
+  if (loading) return <Loading />;
   if (dozers?.error) return <div>There was an error fetching dozers</div>;
-  console.log(dozers);
+
   return (
     <div className='container flex'>
       <div className='mr-4 mt-12 w-[350px]'>
@@ -20,7 +20,10 @@ const Home = () => {
 
         <ul className='grid grid-cols-3 gap-4'>
           {dozers?.map((product) => (
-            <li key={product.id} className='bg-gray-200 p-4 rounded'>
+            <li
+              key={`${product.brand} - ${product.model_name}`}
+              className='bg-gray-200 p-4 rounded'
+            >
               <h2 className='text-lg font-bold'>
                 {product.brand} - {product.model_name}
               </h2>

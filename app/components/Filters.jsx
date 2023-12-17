@@ -14,7 +14,7 @@ export default function Filters() {
       : [...filters.categories, category];
     updateFilters({ ...filters, categories: newCategories });
   };
-  console.log(filters.operatingWeight[0]);
+
   return (
     <div className='mr-10'>
       <h1 className='text-lg'>Filters</h1>
@@ -66,20 +66,22 @@ export default function Filters() {
 
       <div>
         <h2>Engine HP</h2>
-        <span>{filters.engineHP[0] - filters.engineHP[1]}</span>
+        <span>{`${filters.engineHP[0]}HP - ${filters.engineHP[1]}HP`}</span>
         <RangeSlider
           min={0}
           max={500}
+          step={10}
           value={filters.engineHP}
           onInput={(value) => updateFilters({ ...filters, engineHP: value })}
         />
       </div>
 
       <div>
-        <h2>Operating Weight</h2>
-        <span>{filters.operatingWeight[0] - filters.operatingWeight[1]}</span>
+        <h2 className='text-md bold'>Operating Weight</h2>
+        <span>{`${filters.operatingWeight[0]}lbs - ${filters.operatingWeight[1]}lbs`}</span>
         <RangeSlider
           min={0}
+          step={500}
           max={105000}
           value={filters.operatingWeight}
           onInput={(value) =>

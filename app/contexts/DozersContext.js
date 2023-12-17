@@ -12,9 +12,11 @@ export const DozersProvider = ({ children }) => {
     engineHP: [0, 100],
     operatingWeight: [0, 100],
   });
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     async function fetchData() {
+      setLoading(true);
       const response = await fetchDozers();
       setOriginalDozers(response.models);
       setDozers(response.models);
@@ -45,7 +47,9 @@ export const DozersProvider = ({ children }) => {
         engineHP: [minHP, maxHP],
         operatingWeight: [minWeight, maxWeight],
       }));
+      setLoading(false);
     }
+
     fetchData();
   }, []);
 
@@ -84,7 +88,7 @@ export const DozersProvider = ({ children }) => {
 
   return (
     <DozersContext.Provider
-      value={{ dozers, setDozers, filters, updateFilters }}
+      value={{ dozers, setDozers, filters, updateFilters, loading }}
     >
       {children}
     </DozersContext.Provider>
