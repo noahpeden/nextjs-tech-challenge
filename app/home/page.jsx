@@ -1,23 +1,14 @@
 'use client';
-import React, { useEffect, useState, Suspense } from 'react';
-import fetchDozers from '../actions/fetchDozers';
+import React, { useContext } from 'react';
 import Loading from '../loading';
 import Filters from '../components/Filters';
+import { DozersContext } from '../contexts/DozersContext';
 
 const Home = () => {
-  const [data, setData] = useState([]);
+  const { dozers = [] } = useContext(DozersContext);
+  if (dozers?.length === 0) return <Loading />;
+  if (dozers?.error) return <div>There was an error fetching dozers</div>;
 
-  useEffect(() => {
-    async function fetchData() {
-      const response = await fetchDozers();
-      setData(response);
-    }
-    fetchData();
-  }, []);
-
-  if (data.length === 0) return <Loading />;
-  if (data?.error) return <div>There was an error fetching dozers</div>;
-  console.log(data);
   return (
     <div className='container flex'>
       <div className='mr-8 mt-12'>
@@ -27,7 +18,7 @@ const Home = () => {
         <h1 className='text-2xl font-bold mb-4'>Dozers</h1>
 
         <ul className='grid grid-cols-3 gap-4'>
-          {data?.models?.map((product) => (
+          {dozers?.map((product) => (
             <li key={product.id} className='bg-gray-200 p-4 rounded'>
               <h2 className='text-lg font-bold'>
                 {product.brand} - {product.model_name}
@@ -36,7 +27,7 @@ const Home = () => {
               <p>{product.longDesc}</p>
 
               {product?.specs?.map((spec) => (
-                <p key={spec.id}>
+                <p key={spec.spec_name}>
                   {spec.spec_name} - {spec.spec_value}
                 </p>
               ))}

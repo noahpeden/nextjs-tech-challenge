@@ -1,9 +1,14 @@
-import '@testing-library/jest-dom';
 import React from 'react';
 import { render, screen, waitFor } from '@testing-library/react';
+import '@testing-library/jest-dom';
 import Home from '../app/home/page';
-import fetchDozers from '../app/actions/fetchDozers';
-import { act } from 'react-dom/test-utils';
+import * as ReactModule from 'react';
+
+jest.mock('../app/actions/fetchDozers');
+jest.mock('react', () => ({
+  ...jest.requireActual('react'),
+  useContext: jest.fn(),
+}));
 
 const mockData = {
   models: [
@@ -17,33 +22,21 @@ const mockData = {
     },
   ],
 };
-jest.mock('../app/actions/fetchDozers');
+
 describe('<Home/>', () => {
-  const setup = () => {
-    return render(<Home />);
-  };
-
-  describe('render', () => {
-    it('displays the skeleton loader initially', async () => {
-      await act(() => {
-        setup();
-      });
-
-      expect(document.querySelector('#skeleton-loader')).toBeInTheDocument();
-    });
-
-    it('renders dozers after fetch completes', async () => {
-      fetchDozers.mockResolvedValue(mockData);
-      setup();
-      await waitFor(() => {
-        expect(screen.queryByTestId('skeleton-loader')).toBeNull();
-        expect(screen.getByText('CAT - D5')).toBeInTheDocument();
-        expect(screen.getByText('Medium Dozers')).toBeInTheDocument();
-        expect(screen.getByText('Versatile and Efficient')).toBeInTheDocument();
-        expect(screen.getByText('Engine Power - 104 kW')).toBeInTheDocument();
-      });
-    });
+  beforeEach(() => {
+    ReactModule.useContext.mockImplementation(() => ({
+      dozers: mockData.models,
+    }));
   });
 
-  describe('actions', () => {});
+  it('renders dozers from the DozersContext', async () => {
+    render(<Home />);
+
+    expect(screen.queryByTestId('skeleton-loader')).toBeNull();
+    expect(screen.getByText('CAT - D5')).toBeInTheDocument();
+    expect(screen.getAllByText('Medium Dozers')).toHaveLength(2);
+    expect(screen.getByText('Versatile and Efficient')).toBeInTheDocument();
+    expect(screen.getByText('Engine Power - 104 kW')).toBeInTheDocument();
+  });
 });

@@ -1,7 +1,6 @@
 import { Inter } from 'next/font/google';
 import './globals.css';
-
-const inter = Inter({ subsets: ['latin'] });
+import { DozersProvider } from './contexts/DozersContext';
 
 export const metadata = {
   title: 'Create Next App',
@@ -11,7 +10,11 @@ export const metadata = {
 export default function RootLayout({ children }) {
   return (
     <html lang='en'>
-      <body className='bg-secondary-lighter min-h-screen p-24'>{children}</body>
+      <DozersProvider>
+        <body className='bg-secondary-lighter min-h-screen p-24'>
+          {children}
+        </body>
+      </DozersProvider>
     </html>
   );
 }
