@@ -30,7 +30,7 @@ export const DozersProvider = ({ children }) => {
         maxHP = 0,
         minWeight = Number.MAX_VALUE,
         maxWeight = 0;
-      response?.models.forEach((dozer) => {
+      originalDozers.forEach((dozer) => {
         const enginePower = parseInt(
           dozer.specs
             .find((spec) => spec.spec_name === 'Power - Net')
