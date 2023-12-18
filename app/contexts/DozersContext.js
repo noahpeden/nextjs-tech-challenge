@@ -19,8 +19,12 @@ export const DozersProvider = ({ children }) => {
       setLoading(true);
       const response = await fetchDozers();
       setOriginalDozers(response?.models);
-      response?.error && console.error(response?.error);
-      response?.error ? setDozers(backupData) : setDozers(response?.models);
+      setDozers(response?.models);
+      if (response?.error) {
+        console.error(response?.error);
+        setOriginalDozers(backupData);
+        setDozers(backupData);
+      }
 
       let minHP = Number.MAX_VALUE,
         maxHP = 0,
