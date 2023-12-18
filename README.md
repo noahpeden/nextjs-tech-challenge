@@ -16,7 +16,9 @@ This is a simple Next.js app for the Boom & Bucket tech challenge. It features t
 
 
 ## Screen Recording (shows all steps through to email)
-![tech challenge](https://github.com/noahpeden/boom-and-bucket-tech-challenge/assets/15061527/596149ef-1829-479c-abd0-6f54d119eccc)
+https://github.com/noahpeden/boom-and-bucket-tech-challenge/assets/15061527/ad534c6a-9553-46e7-85b1-336cbf4de614
+
+
 
 ## Misses
 - [ ] Localization. I worked on setting this up for a while but kept running into context issues with i18n-next. I added the config, wrapped my layout component in the `appWithTranslation` HOC, and then used the `useTranslation` hook to translate using my common.js file, but kept getting a `Error: (0 , react__WEBPACK_IMPORTED_MODULE_0__.createContext) is not a function` error. My suspicion is I'm doing something wrong with the server side props.
