@@ -1,5 +1,5 @@
 import { render, screen } from '@testing-library/react';
-import Filters from '../app/components/Filters';
+import Filters from '../app/components/Filters/Filters';
 import '@testing-library/jest-dom';
 import * as ReactModule from 'react';
 

@@ -1,45 +1,51 @@
 'use client';
 import React, { useContext } from 'react';
 import Loading from '../loading';
-import Filters from '../components/Filters';
+import Filters from '../components/Filters/Filters';
 import { DozersContext } from '../contexts/DozersContext';
+import Image from 'next/image';
 
 const Home = () => {
   const { dozers = [], loading } = useContext(DozersContext);
-
+  console.log(dozers);
   if (loading) return <Loading />;
   if (dozers?.error) return <div>There was an error fetching dozers</div>;
 
   return (
-    <div className='container flex'>
-      <div className='mr-4 mt-12 w-[350px]'>
+    <div className='container flex flex-col md:flex-row'>
+      <div className='w-full md:w-[350px] md:mr-4'>
         <Filters />
       </div>
-      <div className='container mx-auto '>
+      <div className='container mx-auto'>
         <h1 className='text-2xl font-bold mb-4'>Dozers</h1>
-
-        <ul className='grid grid-cols-3 gap-4'>
+        <ul className='grid grid-cols-1 md:grid-cols-3 gap-4'>
           {dozers?.map((product) => (
             <li
               key={`${product.brand} - ${product.model_name}`}
-              className='bg-gray-200 p-4 rounded'
+              className='bg-white shadow-md rounded overflow-hidden'
             >
-              <h2 className='text-lg font-bold'>
-                {product.brand} - {product.model_name}
-              </h2>
-              <p>{product.family}</p>
-              {/* <p>{product.longDesc}</p> */}
+              <div className='p-4'>
+                <Image
+                  src={product.image_url} // Assuming 'image_url' is the correct field
+                  alt={`${product.brand} - ${product.model_name}`}
+                  width={500} // Adjust these values based on your layout
+                  height={300}
+                  layout='responsive'
+                />
+                <h2 className='text-lg font-bold mt-2'>
+                  {product.brand} - {product.model_name}
+                </h2>
+                <p className='text-sm text-gray-600'>{product.family}</p>
 
-              {product?.specs?.map((spec) => {
-                return (
-                  <div
-                    className='flex flex-col text-sm'
-                    key={`${product.id}-${spec.spec_name}`}
-                  >
-                    {spec.spec_name} - {spec.spec_value[0]}
+                {product?.specs?.map((spec) => (
+                  <div className='mt-1' key={`${product.id}-${spec.spec_name}`}>
+                    <span className='text-sm font-medium'>
+                      {spec.spec_name}:{' '}
+                    </span>
+                    <span className='text-sm'>{spec.spec_value[0]}</span>
                   </div>
-                );
-              })}
+                ))}
+              </div>
             </li>
           ))}
         </ul>

@@ -9,8 +9,8 @@ export const DozersProvider = ({ children }) => {
   const [dozers, setDozers] = useState([]);
   const [filters, setFilters] = useState({
     categories: [],
-    engineHP: [0, 100],
-    operatingWeight: [0, 100],
+    engineHP: [0, 500],
+    operatingWeight: [0, 150000],
   });
   const [loading, setLoading] = useState(true);
 
