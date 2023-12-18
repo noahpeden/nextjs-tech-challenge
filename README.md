@@ -11,7 +11,8 @@ This is a simple Next.js app for the Boom & Bucket tech challenge. It features t
 ## How to set up
 1. Clone the repo
 2. run `npm i` and then `npm run dev`
-3. Optional: visit live site (has fetching issues): https://boom-and-bucket-tech-challenge.vercel.app
+3. Optional: visit live site: https://boom-and-bucket-tech-challenge.vercel.app
+4. To test: run `npm run test` or `npm run test:watch`
 
 
 ## Screen Recording (shows all steps through to email)
@@ -19,7 +20,7 @@ This is a simple Next.js app for the Boom & Bucket tech challenge. It features t
 
 ## Misses
 - [ ] Localization. I worked on setting this up for a while but kept running into context issues with i18n-next. I added the config, wrapped my layout component in the `appWithTranslation` HOC, and then used the `useTranslation` hook to translate using my common.js file, but kept getting a `Error: (0 , react__WEBPACK_IMPORTED_MODULE_0__.createContext) is not a function` error. My suspicion is I'm doing something wrong with the server side props.
-- [ ] Live deployment fetching issues - Deploying via Vercel was very trivial, and was able to set up CI/CD with Github Actions and make them depend on tests passing, however the cat.com API seems to block the deployed version of my call as I keep getting gateway timeouts, even though I'm calling it through an API route on my backend. I looked into setting up an account so I could get an API Key, but it didn't allow me to sign up.
+- [ ] Live deployment fetching issues - Deploying via Vercel was very trivial, and was able to set up CI/CD with Github Actions and make them depend on tests passing, however the cat.com API seems to block the deployed version of my call as I keep getting gateway timeouts, even though I'm calling it through an API route on my backend. I looked into setting up an account so I could get an API Key, but it didn't allow me to sign up. As a work around I downloaded the models array to the codebase and hit that if there is an error in the api response.
 
 ## Acceptance Criteria
 1. Use the following API to build your NextJS Frontend:
