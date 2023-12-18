@@ -4,6 +4,8 @@ import Loading from '../loading';
 import Filters from '../components/Filters/Filters';
 import { DozersContext } from '../contexts/DozersContext';
 import Image from 'next/image';
+import { TransitionGroup, CSSTransition } from 'react-transition-group';
+import './home.css';
 
 const Home = () => {
   const { dozers = [], loading } = useContext(DozersContext);
@@ -18,36 +20,44 @@ const Home = () => {
       </div>
       <div className='container mx-auto'>
         <h1 className='text-2xl font-bold mb-4'>Dozers</h1>
-        <ul className='grid grid-cols-1 md:grid-cols-3 gap-4'>
-          {dozers?.map((product) => (
-            <li
-              key={`${product.brand} - ${product.model_name}`}
-              className='bg-white shadow-md rounded overflow-hidden'
-            >
-              <div className='p-4'>
-                <Image
-                  src={product.image_url} // Assuming 'image_url' is the correct field
-                  alt={`${product.brand} - ${product.model_name}`}
-                  width={500} // Adjust these values based on your layout
-                  height={300}
-                  layout='responsive'
-                />
-                <h2 className='text-lg font-bold mt-2'>
-                  {product.brand} - {product.model_name}
-                </h2>
-                <p className='text-sm text-gray-600'>{product.family}</p>
+        <ul>
+          <TransitionGroup className='grid grid-cols-1 md:grid-cols-3 gap-4'>
+            {dozers?.map((product) => (
+              <CSSTransition
+                key={`${product.brand} - ${product.model_name}`}
+                timeout={500}
+                classNames='fade'
+              >
+                <li className='bg-white shadow-md rounded overflow-hidden'>
+                  <div className='p-4'>
+                    <Image
+                      src={product.image_url}
+                      alt={`${product.brand} - ${product.model_name}`}
+                      width={500}
+                      height={300}
+                      layout='responsive'
+                    />
+                    <h2 className='text-lg font-bold mt-2'>
+                      {product.brand} - {product.model_name}
+                    </h2>
+                    <p className='text-sm text-gray-600'>{product.family}</p>
 
-                {product?.specs?.map((spec) => (
-                  <div className='mt-1' key={`${product.id}-${spec.spec_name}`}>
-                    <span className='text-sm font-medium'>
-                      {spec.spec_name}:{' '}
-                    </span>
-                    <span className='text-sm'>{spec.spec_value[0]}</span>
+                    {product?.specs?.map((spec) => (
+                      <div
+                        className='mt-1'
+                        key={`${product.id}-${spec.spec_name}`}
+                      >
+                        <span className='text-sm font-medium'>
+                          {spec.spec_name}:{' '}
+                        </span>
+                        <span className='text-sm'>{spec.spec_value[0]}</span>
+                      </div>
+                    ))}
                   </div>
-                ))}
-              </div>
-            </li>
-          ))}
+                </li>
+              </CSSTransition>
+            ))}
+          </TransitionGroup>
         </ul>
       </div>
     </div>
