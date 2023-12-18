@@ -3,7 +3,7 @@ import { useContext, useState } from 'react';
 import Loading from '../loading';
 import Filters from '../components/Filters/Filters';
 import { DozersContext } from '../contexts/DozersContext';
-import Image from "next/legacy/image";
+import Image from 'next/legacy/image';
 import { TransitionGroup, CSSTransition } from 'react-transition-group';
 import './home.css';
 import Modal from '../components/Modal/Modal';
@@ -17,19 +17,20 @@ const Home = () => {
 
   if (loading) return <Loading />;
   if (dozers?.error) return <div>There was an error fetching dozers</div>;
-  const handleDozerClick = (dozer) => {
+
+  const handleDozerClick = (e) => {
+    const dozer = e.target.value;
     setSelectedDozer(dozer);
     setIsModalOpen(true);
   };
-  const handleFormSubmit = (formData) => {
-    const { fullName, email, phoneNumber, dozer } = formData;
 
-    const emailBody = `${fullName} has requested more information about the ${dozer.brand} ${dozer.model_name} bulldozer. You can reach them at ${email} or call them at ${phoneNumber}.`;
-    console.log(emailBody);
+  const handleFormSubmit = (formData) => {
+    const { fullName, email, phoneNumber } = formData;
+    const emailBody = `${fullName} has requested more information about the ${selectedDozer.brand} ${selectedDozer.model_name} bulldozer. You can reach them at ${email} or call them at ${phoneNumber}.`;
     const msg = {
       to: email,
       from: 'noahpeden@gmail.com',
-      subject: `${fullName} has requested more info about ${dozer.brand} ${dozer.model_name}`,
+      subject: `${fullName} has requested more info about ${selectedDozer.brand} ${selectedDozer.model_name}`,
       text: emailBody,
     };
     requestInfoEmail(msg);
@@ -51,7 +52,9 @@ const Home = () => {
                 classNames='fade'
               >
                 <li
-                  onClick={handleDozerClick}
+                  onClick={() =>
+                    handleDozerClick({ target: { value: product } })
+                  }
                   className='bg-white shadow-md rounded overflow-hidden hover:cursor-pointer hover:bg-gray-100 hover:shadow-lg hover:border-primary'
                 >
                   <div className='p-4 '>
@@ -61,6 +64,7 @@ const Home = () => {
                       width={500}
                       height={300}
                       layout='responsive'
+                      priority
                     />
                     <h2 className='text-lg font-bold mt-2'>
                       {product.brand} - {product.model_name}
