@@ -18,7 +18,6 @@ This is a simple Next.js app for the Boom & Bucket tech challenge. It features t
 ![tech challenge](https://github.com/noahpeden/boom-and-bucket-tech-challenge/assets/15061527/596149ef-1829-479c-abd0-6f54d119eccc)
 
 ## Misses
-- [ ] Branding the email. I de-prioritized this and ran out of time, but I'm very confident I could get it done quickly in Sendgrid's dashboard or adding in some html to the message.
 - [ ] Localization. I worked on setting this up for a while but kept running into context issues with i18n-next. I added the config, wrapped my layout component in the `appWithTranslation` HOC, and then used the `useTranslation` hook to translate using my common.js file, but kept getting a `Error: (0 , react__WEBPACK_IMPORTED_MODULE_0__.createContext) is not a function` error. My suspicion is if I paired on this with someone for five minutes I could probably figure it out.
 - [ ] Live deployment fetching issues - Deploying via Vercel was very trivial, and was able to set up CI/CD with Github Actions and make them depend on tests passing, however the cat.com API seems to block the deployed version of my call as I keep getting gateway timeouts, even though I'm calling it through an API route on my backend. I looked into setting up an account so I could get an API Key, but it didn't allow me to sign up.
 
@@ -56,7 +55,8 @@ The above is the basic assessment we use for full-stack developers, but for fron
 - [ ] Localization
 - [x] Branding the project (doesn’t matter what, but just cohesive use of components)
 - [x] Leveraging and branding an component system not an off the shelf (PrimeNG, etc)
-- [ ] Branding the email & using an third party like sendgrid to send the email
+- [x] Branding the email & using an third party like sendgrid to send the email
+     ![Screenshot 2023-12-18 at 10 57 09 AM](https://github.com/noahpeden/boom-and-bucket-tech-challenge/assets/15061527/8d841138-724d-4ba0-8ca7-56a5ea901a5c)
 - [x] Extra Credit:
     - [x] CI/CD
     - [x] Deployed Live
