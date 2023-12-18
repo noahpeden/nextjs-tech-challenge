@@ -3,7 +3,7 @@ import { useContext, useState } from 'react';
 import Loading from '../loading';
 import Filters from '../components/Filters/Filters';
 import { DozersContext } from '../contexts/DozersContext';
-import Image from 'next/image';
+import Image from "next/legacy/image";
 import { TransitionGroup, CSSTransition } from 'react-transition-group';
 import './home.css';
 import Modal from '../components/Modal/Modal';
