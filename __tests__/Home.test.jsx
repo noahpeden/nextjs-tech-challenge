@@ -4,10 +4,9 @@ import '@testing-library/jest-dom';
 import Home from '../app/home/page';
 import * as ReactModule from 'react';
 
-jest.mock('next/image', () => ({
+jest.mock('next/legacy/image', () => ({
   __esModule: true,
   default: () => {
-    // Return whatever mock structure you deem appropriate for your tests
     return 'Next image stub';
   },
 }));
