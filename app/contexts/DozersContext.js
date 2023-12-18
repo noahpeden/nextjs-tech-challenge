@@ -18,7 +18,6 @@ export const DozersProvider = ({ children }) => {
     async function fetchData() {
       setLoading(true);
       const response = await fetchDozers();
-      console.log(response);
       setOriginalDozers(response?.models);
       response?.error
         ? setDozers({ error: response?.error })
