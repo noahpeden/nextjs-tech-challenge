@@ -1,17 +1,40 @@
 'use client';
-import React, { useContext } from 'react';
+import { useContext, useState } from 'react';
 import Loading from '../loading';
 import Filters from '../components/Filters/Filters';
 import { DozersContext } from '../contexts/DozersContext';
 import Image from 'next/image';
 import { TransitionGroup, CSSTransition } from 'react-transition-group';
 import './home.css';
+import Modal from '../components/Modal/Modal';
+import RequestInfoForm from '../components/RequestInfoForm/RequestInfoForm';
+import requestInfoEmail from '../actions/requestInfoEmail';
 
 const Home = () => {
   const { dozers = [], loading } = useContext(DozersContext);
-  console.log(dozers);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [selectedDozer, setSelectedDozer] = useState(null);
+
   if (loading) return <Loading />;
   if (dozers?.error) return <div>There was an error fetching dozers</div>;
+  const handleDozerClick = (dozer) => {
+    setSelectedDozer(dozer);
+    setIsModalOpen(true);
+  };
+  const handleFormSubmit = (formData) => {
+    const { fullName, email, phoneNumber, dozer } = formData;
+
+    const emailBody = `${fullName} has requested more information about the ${dozer.brand} ${dozer.model_name} bulldozer. You can reach them at ${email} or call them at ${phoneNumber}.`;
+    console.log(emailBody);
+    const msg = {
+      to: email,
+      from: 'noahpeden@gmail.com',
+      subject: `${fullName} has requested more info about ${dozer.brand} ${dozer.model_name}`,
+      text: emailBody,
+    };
+    requestInfoEmail(msg);
+    setIsModalOpen(false);
+  };
 
   return (
     <div className='container flex flex-col md:flex-row'>
@@ -28,7 +51,10 @@ const Home = () => {
                 timeout={500}
                 classNames='fade'
               >
-                <li className='bg-white shadow-md rounded overflow-hidden'>
+                <li
+                  onClick={handleDozerClick}
+                  className='bg-white shadow-md rounded overflow-hidden hover:bg-gray-100 hover:pointer hover:shadow-lg hover:border-primary'
+                >
                   <div className='p-4'>
                     <Image
                       src={product.image_url}
@@ -60,6 +86,9 @@ const Home = () => {
           </TransitionGroup>
         </ul>
       </div>
+      <Modal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)}>
+        <RequestInfoForm onSubmit={handleFormSubmit} dozer={selectedDozer} />
+      </Modal>
     </div>
   );
 };

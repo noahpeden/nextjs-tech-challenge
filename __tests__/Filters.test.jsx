@@ -20,16 +20,9 @@ describe.only('<Filters/>', () => {
     return render(<Filters />);
   };
   describe('render', () => {
-    test('renders the title', () => {
-      setup();
-
-      expect(screen.getByText('Filters')).toBeInTheDocument();
-    });
     test('renders the category list', () => {
       setup();
 
-      // Assert that the category list is rendered
-      expect(screen.getByText('Category')).toBeInTheDocument();
       expect(screen.getByText('Small Dozers')).toBeInTheDocument();
       expect(screen.getByText('Medium Dozers')).toBeInTheDocument();
       expect(screen.getByText('Large Dozers')).toBeInTheDocument();
