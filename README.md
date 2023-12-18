@@ -5,7 +5,7 @@ This is a simple Next.js app for the Boom & Bucket tech challenge. It features t
 - Rendering of dozers from cat.com's API that displays all dozers and allows for filtering
 - Animations on filter of dozers
 - A Request More Info modal with emails sent via Sendgrid
-- CI/CD with Github Actions and deployment through Vercel
+- CI/CD with Github Actions and deployment through Vercel (click on the Actions tab in this repo to see all the deployments)
 - React Testing Library unit tests integrated into the CI/CD pipeline
 
 ## How to set up
