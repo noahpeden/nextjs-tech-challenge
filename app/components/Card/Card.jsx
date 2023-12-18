@@ -1,27 +1,31 @@
-export default function Card({ category, handleCategoryChange, filters }) {
+import Image from 'next/image';
+
+export default function Card({ handleDozerClick, product }) {
   return (
-    <li key={category} className='flex items-center mb-2'>
-      <input
-        id={category.replace(/\s+/g, '-').toLowerCase()}
-        type='checkbox'
-        value={category}
-        className='hidden'
-        onChange={handleCategoryChange}
-        checked={filters.categories.includes(category)}
-      />
-      <label
-        htmlFor={category.replace(/\s+/g, '-').toLowerCase()}
-        className='flex items-center cursor-pointer'
-      >
-        <span className='w-4 h-4 inline-block mr-2 rounded-sm border border-gray-400 flex items-center justify-center'>
-          <span
-            className={`w-2 h-2 rounded-sm ${
-              filters.categories.includes(category) ? 'bg-blue-600' : ''
-            }`}
-          ></span>
-        </span>
-        {category}
-      </label>
+    <li
+      onClick={() => handleDozerClick({ target: { value: product } })}
+      className='bg-white shadow-md rounded overflow-hidden hover:cursor-pointer hover:bg-gray-100 hover:shadow-lg hover:border-primary'
+    >
+      <div className='p-4 '>
+        <Image
+          src={product?.image_url}
+          alt={`${product?.brand} - ${product?.model_name}`}
+          width={500}
+          height={300}
+          priority
+        />
+        <h2 className='text-lg font-bold mt-2'>
+          {product?.brand} - {product?.model_name}
+        </h2>
+        <p className='text-sm text-gray-600'>{product?.family}</p>
+
+        {product?.specs?.map((spec) => (
+          <div className='mt-1' key={`${product?.id}-${spec.spec_name}`}>
+            <span className='text-sm font-medium'>{spec.spec_name}: </span>
+            <span className='text-sm'>{spec.spec_value[0]}</span>
+          </div>
+        ))}
+      </div>
     </li>
   );
 }

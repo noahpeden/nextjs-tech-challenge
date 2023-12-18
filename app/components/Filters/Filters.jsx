@@ -1,7 +1,7 @@
 import React, { useContext } from 'react';
 import { DozersContext } from '../../contexts/DozersContext';
-import Slider from '../Slider/Slider';
-import Card from '../Card/Card';
+import Slider from '../Slider';
+import Category from '../Category';
 const dozerTypes = [
   'Small Dozers',
   'Medium Dozers',
@@ -24,7 +24,7 @@ export default function Filters() {
     <div className='bg-white shadow-md rounded p-4'>
       <ul>
         {dozerTypes.map((category) => (
-          <Card
+          <Category
             key={category}
             category={category}
             handleCategoryChange={handleCategoryChange}
