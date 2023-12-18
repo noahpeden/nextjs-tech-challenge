@@ -10,7 +10,16 @@ export default async function handler(req, res) {
         from: req.body.from,
         subject: req.body.subject,
         text: req.body.text,
-        html: req.body.html,
+        html: `
+          <div style="background-color: #f5f5f5; padding: 20px;">
+            <img src="https://imgur.com/YoApEvP alt="Logo" style="display: block; margin: 0 auto; width: 200px;">
+            <div style="background-color: white; padding: 20px; margin-top: 20px;">
+              <h1 style="color: #333333;">Hello ${req.body.to}</h1>
+              <p style="color: #666666;">${req.body.text}</p>
+              <p style="color: #666666;">Sincerely, ${req.body.from}</p>
+            </div>
+          </div>
+        `,
       };
 
       await sgMail.send(msg);

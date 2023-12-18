@@ -1,7 +1,7 @@
 'use client';
 import React, { createContext, useState, useEffect } from 'react';
 import fetchDozers from '../actions/fetchDozers';
-
+import backupData from '../backup-data.json';
 export const DozersContext = createContext();
 
 export const DozersProvider = ({ children }) => {
@@ -19,9 +19,8 @@ export const DozersProvider = ({ children }) => {
       setLoading(true);
       const response = await fetchDozers();
       setOriginalDozers(response?.models);
-      response?.error
-        ? setDozers({ error: response?.error })
-        : setDozers(response?.models);
+      response?.error && console.error(response?.error);
+      response?.error ? setDozers(backupData) : setDozers(response?.models);
 
       let minHP = Number.MAX_VALUE,
         maxHP = 0,

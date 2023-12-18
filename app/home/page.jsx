@@ -14,7 +14,7 @@ const Home = () => {
   const { dozers = [], loading } = useContext(DozersContext);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedDozer, setSelectedDozer] = useState(null);
-
+  console.log(dozers);
   if (loading) return <Loading />;
   if (dozers?.error) return <div>There was an error fetching dozers</div>;
 
