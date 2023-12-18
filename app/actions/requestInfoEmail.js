@@ -1,11 +1,19 @@
-const sgMail = require('@sendgrid/mail');
-
-sgMail.setApiKey(process.env.SENDGRID_API_KEY);
 export default function requestInfoEmail(msg) {
-  sgMail
-    .send(msg)
-    .then(() => {
-      console.log('Email sent');
+  fetch('/api/send-email', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(msg),
+  })
+    .then((response) => {
+      if (response.ok) {
+        console.log('Email sent');
+      } else {
+        return response.json().then((data) => {
+          throw new Error(data.error || 'Error sending email');
+        });
+      }
     })
     .catch((error) => {
       console.error(error);
