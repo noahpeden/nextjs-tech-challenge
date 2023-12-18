@@ -42,7 +42,6 @@ const Home = () => {
         <Filters />
       </div>
       <div className='container mx-auto'>
-        <h1 className='text-2xl font-bold mb-4'>Dozers</h1>
         <ul>
           <TransitionGroup className='grid grid-cols-1 md:grid-cols-3 gap-4'>
             {dozers?.map((product) => (
@@ -53,9 +52,9 @@ const Home = () => {
               >
                 <li
                   onClick={handleDozerClick}
-                  className='bg-white shadow-md rounded overflow-hidden hover:bg-gray-100 hover:pointer hover:shadow-lg hover:border-primary'
+                  className='bg-white shadow-md rounded overflow-hidden hover:cursor-pointer hover:bg-gray-100 hover:shadow-lg hover:border-primary'
                 >
-                  <div className='p-4'>
+                  <div className='p-4 '>
                     <Image
                       src={product.image_url}
                       alt={`${product.brand} - ${product.model_name}`}

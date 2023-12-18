@@ -18,14 +18,17 @@ export const DozersProvider = ({ children }) => {
     async function fetchData() {
       setLoading(true);
       const response = await fetchDozers();
-      setOriginalDozers(response.models);
-      setDozers(response.models);
+      console.log(response);
+      setOriginalDozers(response?.models);
+      response?.error
+        ? setDozers({ error: response?.error })
+        : setDozers(response?.models);
 
       let minHP = Number.MAX_VALUE,
         maxHP = 0,
         minWeight = Number.MAX_VALUE,
         maxWeight = 0;
-      response.models.forEach((dozer) => {
+      response?.models.forEach((dozer) => {
         const enginePower = parseInt(
           dozer.specs
             .find((spec) => spec.spec_name === 'Power - Net')
